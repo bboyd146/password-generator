@@ -8,48 +8,9 @@ const lowerChars = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o",
 const upperChars = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 const specChars = ["!","#","$","%","&","'","\"","(",")","*","+","\,","-",".","/",":",";","<","=",">","?","@","\[","\]","^","_","`","{","|","}","~"]
 const allChars = numbersChars + lowerChars + upperChars + specChars;
-var randomPassword = [];
+// var userChoices = [];
+// console.log (userChoices);
 
-function generateOptions() {
-// Code for prompt series
-// prompts for password length
-const passLength = prompt("Length of password? Must choose between 8 and 128 Characters.");
-
-// prompt alerts for incorrect values
-if (passLength < 8) {
-  alert('The password must be at least 8 characters!');
-  return;
-}
-if (passLength > 128) {
-  alert('The password must be less than 128 characters!')
-  return;
-}
-// prompts for numerical characters
-const wantNumbersChars = confirm("Include numerical characters?");
-
-// prompts for lowercase characters
-const wantLowerChars = confirm("Include lowercase characters?");
-// prompts for uppercase characters
-const wantUpperChars = confirm("Include uppercase characters?");
-// prompts for special characters
-const wantSpecChars = confirm("Include special characters?");
-
-if (!wantLowerChars && !wantUpperChars && !wantNumbersChars && !wantSpecChars) {
-  alert("Your password must contain at least one special, numeric, lowercase, or uppercase character");
-  return;
-}
-// Makes variables for users choices
-const questionOptions = {
-  length: passLength,
-  numeric: wantNumbersChars,
-  lowerCase: wantLowerChars,
-  upperCase: wantUpperChars,
-  specialCharacters: wantSpecChars,
-  allFour: allChars,
-}
-
-// return questionOptions;
-}
 
 // Write password to the #password input
 function writePassword() {
@@ -61,37 +22,49 @@ function writePassword() {
 }
 // Writes code to create password from selected prompts
 function generatePassword() {
-  const options = generateOptions();
-  const passwordPicks = [];
-
-
-  if (options.numeric) {
-    for (i = 0; i < numbersChars.length; i++) {
-        passwordPicks.push(numbersChars[i]);
-    }
-} 
-if (options.lowerCase) {
-    for (i = 0; i < lowerChars.length; i++) {
-    passwordPicks.push(lowerChars[i]);
-    }
-}
-if (options.upperCase) {
-    for (i = 0; i < upperChars.length; i++) {
-    passwordPicks.push(upperChars[i]);
-    }
-}
-if (options.specialCharacters) {
-    for (i = 0; i < specChars.length; i++) {
-    passwordPicks.push(specChars[i]);
-    }
-}
-if (options.allFour) {
-  for (let i = 0; i < allChars.length; i++) {
-    passwordPicks.push(allChars[i]);
-    
+  
+  userChoices = [];
+  const passLength = prompt("Length of password? Must choose between 8 and 128 Characters.");
+  
+  // prompt alerts for incorrect values
+  if (passLength < 8) {
+    alert('The password must be at least 8 characters!');
+    return;
   }
-}
+  if (passLength > 128) {
+    alert('The password must be less than 128 characters!')
+    return;
+  }
+  // prompts for numerical characters
+  if(confirm("Include numerical characters?")) {
+    userChoices = userChoices.concat(numbersChars);
+  }
+  
+  // prompts for lowercase characters
+  if(confirm("Include lowercase characters?")) {
+    userChoices = userChoices.concat(lowerChars);
+  }
+  // prompts for uppercase characters
+  if(confirm("Include uppercase characters?")) {
+    userChoices = userChoices.concat(upperChars);
+  }
+  // prompts for special characters
+  if(confirm("Include special characters?")) {
+    userChoices = userChoices.concat(specChars);
+  }  
+  // alert for no characters chosen
+  if (userChoices == 0) {
+    alert("Your password must contain at least one special, numeric, lowercase, or uppercase character");
+  }
+  
 
+  var randomPassword = [];
+  // Loop to generate final password from choices made.
+  for (var i = 0; i < passLength; i++) {
+    var allChoices = userChoices[Math.floor(Math.random() * userChoices.length)];
+    randomPassword.push(allChoices);
+  }
+  return randomPassword.join("");
 }
 
 
